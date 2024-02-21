@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp(
+  await Firebase.initializeApp(
     options: const FirebaseOptions(
         apiKey: "AIzaSyD4GnTVeDj7lwzef5AQd3BC-blMTcA17So",
         appId: "1:846233811926:android:a3d4ad693c06115c274277",

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -12,6 +13,7 @@ class _RegisterPageState extends State<RegisterPage> {
   // Text Controller
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
 
   @override
   void dispose() {
@@ -21,7 +23,11 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Future signUp() async{
-
+    if(_confirmPasswordController.text.trim() == _passwordController.text.trim()) {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim());
+    }
   }
 
   @override
@@ -92,6 +98,28 @@ class _RegisterPageState extends State<RegisterPage> {
                       )
                   ),
 
+                  const SizedBox(height: 10),
+                  // password Textfield
+                  Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                      child: TextField(
+                        controller: _confirmPasswordController,
+                        decoration: InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.deepPurple),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            hintText: 'Confirm Password',
+                            fillColor: Colors.grey[200],
+                            filled: true
+                        ),
+                      )
+                  ),
+
                   const SizedBox(height: 30),
                   // Sign up button
                   Padding(
@@ -124,7 +152,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
-                        'Not a member ?',
+                        'If you have an account ?',
                         style: TextStyle(
                             fontWeight: FontWeight.bold
                         ),
@@ -134,7 +162,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       GestureDetector(
                         onTap: widget.showLoginPage,
                         child: const Text(
-                          'Register now',
+                          'Login here',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.blue
