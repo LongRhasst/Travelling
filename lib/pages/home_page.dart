@@ -1,6 +1,10 @@
+import 'package:app_nckh/Controller/bottom_nav_bar_controller.dart';
+import 'package:app_nckh/Query/query_page.dart';
 import 'package:app_nckh/auth/user_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 
 class HomePage extends StatefulWidget{
   const HomePage({super.key});
@@ -12,87 +16,45 @@ class HomePage extends StatefulWidget{
 class _HomePageState extends State<HomePage>{
   @override
   Widget build(BuildContext context){
+    BottomNavigatorBarController controller = Get.put(BottomNavigatorBarController());
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
+      bottomNavigationBar: Container(
+        color: Colors.deepPurple,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          child: GNav(
+            backgroundColor: Colors.deepPurple,
+            activeColor: Colors.white,
+            tabBackgroundColor: Colors.deepPurple.shade300,
+            gap: 8,
+            padding: EdgeInsets.all(15),
+            onTabChange: (value){
+              controller.index.value = value;
+            },
+            tabs: const [
+              GButton(
+                icon: Icons.home,
+                text: 'Home',
+              ),
+              GButton(
 
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Expanded(
-                  child: Container(
-                    height: 80,
-                    child: ElevatedButton(
-                        onPressed: (){},
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.deepPurple,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.zero,
-                            ),
-                        ),
-                        child: Text(
-                          "Home",
-                          style: TextStyle(
-                            color: Colors.grey[200],
-                          ),
-                        )
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 1,),
-                Expanded(
-                  child: Container(
-                    height: 80,
-                    child: ElevatedButton(
-                        onPressed: (){},
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.deepPurple,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.zero,
-                            ),
-                        ),
-                        child: Text (
-                          "search",
-                          style: TextStyle(
-                            color: Colors.grey[200],
-                          ),
-                        )
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 1,),
-                Expanded(
-                  child: Container(
-                    height: 80,
-                    child: ElevatedButton(
-                        onPressed: (){
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const UserPage()));
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.deepPurple,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.zero,
-                          ),
-                        ),
-                        child: Text(
-                          "User",
-                          style: TextStyle(
-                            color: Colors.grey[200],
-                          ),
-                        )
-                    ),
-                  ),
-                )
-              ],
-            ),
+                icon: Icons.favorite_border,
+                text: 'Like',
+              ),
+              GButton(
 
-          ],
+                icon: Icons.search,
+                text: 'Search',
+              ),
+              GButton(
+                icon: Icons.person,
+                text: 'Account',
+              )
+            ],
+          ),
         ),
-      )
+      ),
+      body: Obx(() => controller.Pages[controller.index.value])
     );
   }
 }
