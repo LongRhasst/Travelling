@@ -10,8 +10,6 @@ class InformationPage extends StatefulWidget {
 class _InformationPageState extends State<InformationPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-
-    );
+    return Scaffold();
   }
 }
